@@ -1,0 +1,23 @@
+set number
+
+syntax on
+
+" tabs
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+set autoindent
+
+command -nargs=1 Replace %s/<args>/g
+
+" C compilation
+command -nargs=* Gcc w | !gcc % -o %<;./%< <args>
+command -nargs=* Gcct w | !gcc -pthread % -o %<;./%< <args>
+
+" mic1
+command -nargs=* Ijvm w | !ijvm-asm % %<.bc; ijvm %<.bc <args>
+command -nargs=* Mal w | !mic1-asm %<.mal %<.mic1; ijvm-asm -f %<.spec % %<.bc; mic1 -f %<.spec %<.mic1 %<.bc <args>
+
+" assembly and C
+command -nargs=* Asm w | !gcc %<.c % -o %<; ./%< <args>
